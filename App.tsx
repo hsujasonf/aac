@@ -1,10 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
@@ -13,10 +6,12 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   useColorScheme,
   View,
+  ViewStyle,
 } from 'react-native';
-
+import Tts from 'react-native-tts';
 import {
   Colors,
   DebugInstructions,
@@ -28,6 +23,8 @@ import {
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
+
+Tts.setDefaultLanguage('en-US'); // Set language
 
 function Section({children, title}: SectionProps): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -57,27 +54,40 @@ function Section({children, title}: SectionProps): React.JSX.Element {
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+  const speakWord = (word: string) => {
+    Tts.speak(word);
+  };
 
-  const backgroundStyle = {
+  const backgroundStyle: ViewStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    flex: 1, // Ensures full height for SafeAreaView
+    width: '100%',
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <View style={backgroundStyle}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => speakWord('Hello')}>
+        <Text style={styles.buttonText}>Say "Hello"</Text>
+      </TouchableOpacity>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
+        style={backgroundStyle}
+        contentContainerStyle={{flexGrow: 1}} // Ensures ScrollView expands properly
+      >
         <Header />
         <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
+          style={[
+            styles.contentContainer,
+            {backgroundColor: isDarkMode ? Colors.black : Colors.white},
+          ]}>
           <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
+            Edit <Text style={styles.highlight}>look</Text> to change this
             screen and then come back to see your edits.
           </Section>
           <Section title="See Your Changes">
@@ -92,11 +102,17 @@ function App(): React.JSX.Element {
           <LearnMoreLinks />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  contentContainer: {
+    flex: 1, // Ensures the content container fills available space
+    justifyContent: 'center', // Centers the content
+    alignItems: 'center', // Centers horizontally
+    padding: 16,
+  },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
@@ -112,6 +128,17 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+  },
+  button: {
+    backgroundColor: '#4CAF50',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
