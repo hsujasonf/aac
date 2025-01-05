@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@react-navigation/native": "^7.0.14",
+    "axios": "^1.7.9",
+    "buffer": "^6.0.3",
     "react": "18.3.1",
     "react-native": "0.76.5",
     "react-native-tts": "^4.1.1"
@@ -40,7 +42,8 @@
     "prettier": "2.8.8",
     "react-test-renderer": "18.3.1",
     "ts-jest": "^29.2.5",
-    "typescript": "5.0.4"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.4"
   },
   "engines": {
     "node": ">=18"
